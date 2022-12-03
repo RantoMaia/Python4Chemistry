@@ -1,0 +1,62 @@
+#Program that gives the electronic distribution considering the atomic number
+totElectrons = [2, 8, 18, 32, 32, 18, 6]
+levels = {1 : 2, 2 : 8, 3 : 18, 4 : 32, 5 : 32, 6 : 18, 7 : 8}
+subLevels = {'s':2,'p':6,'d':10,'f':14}
+shells = {1 : ['s'], 2 : ['s','p'], 3 : ['s','p','d'], 4 : ['s','p','d','f'], 5 : ['s','p','d','f'], 6 : ['s','p','d'], 7 : ['s','p']}
+
+#functions
+
+def validInt(question):
+    while True:
+        try:
+            n = int(input(question))
+        except:
+            print('Invalid Input!')
+        else:
+            return n
+            break   
+
+def levelId(electrons):  
+    
+    for i in levels:
+        electrons -= levels[i]
+
+        if electrons <= 0:
+
+            break
+        else:
+            continue
+             
+    return i
+
+#INPUT
+
+
+n = validInt('Atomic number: ')
+
+
+lastLevel = levelId(n)
+
+print(lastLevel)
+
+
+outerElectrons = n - sum(totElectrons[0:(lastLevel-1)])
+
+
+#OUTPUT
+
+for count in shells:
+    if count < lastLevel:
+        for i in shells[count]:
+            print(f'{count}{i}{subLevels[i]}', end=' ')
+    else:
+        break
+   
+for j in shells[lastLevel]:
+    outerElectrons -= subLevels[j] 
+    if outerElectrons >= 0:
+        print(f'{lastLevel}{j}{subLevels[j]}', end=' ')
+    else:
+        break
+    
+print(f'{lastLevel}{j}{outerElectrons + subLevels[j]}')
